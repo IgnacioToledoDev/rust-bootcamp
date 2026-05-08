@@ -1,5 +1,28 @@
+mod solution;
+
 fn main() {
     println!("Temperature converter");
+
+    println!("Get the solution write 1");
+    let mut temp: String = String::new();
+    std::io::stdin()
+        .read_line(&mut temp)
+        .expect("Failed to read line");
+
+    let temp: i32 = match temp.trim().parse() {
+        Ok(num) => num,
+        Err(_) => {
+            println!("Error getting the solution");
+            return;
+        }
+    };
+
+    if temp == 1 {
+        solution::solution();
+        return;
+    }
+
+    // Main solution
     // get the value to converter
     println!("Insert the value to convert");
     let mut value_to_convert = String::new();
@@ -37,17 +60,12 @@ fn get_option(user_option: i8) -> String {
     allowed_action
 }
 
-#[warn(unused_assignments)]
 fn show_converter(value: f32, option: String) -> Option<()> {
-    let mut converter: f32 = 0.0;
-    let mut oposite: String = String::new();
-    if option == "celsius" {
-        converter = (value * 9.0 / 5.0) + 32.0;
-        oposite = String::from("Fahrenheit");
+    let (converter, oposite) = if option == "celsius" {
+        ((value * 9.0 / 5.0) + 32.0, "Fahrenheit")
     } else {
-        converter = (value - 32.0) * 5.0 / 9.0;
-        oposite = String::from("Celsius");
-    }
+        ((value - 32.0) * 5.0 / 9.0, "Celsius")
+    };
 
     println!("Value to converter {value} {option}, Result {converter} {oposite}");
     None
